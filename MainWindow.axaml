@@ -1,0 +1,692 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:DivAcerManagerMax"
+        xmlns:material="using:Material.Icons.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
+
+        x:Class="DivAcerManagerMax.MainWindow"
+        Title="DAMX"
+        Icon="iconTransparent.png"
+        WindowStartupLocation="CenterScreen"
+        SystemDecorations="Full"
+        Background="#0e0e11"
+
+        Width="1200" Height="700"
+        MinWidth="1200" MinHeight="480">
+
+
+    <Grid>
+
+        <Grid RowDefinitions="Auto,*">
+
+            <!-- App Header -->
+            <Image Source="closeupTransparent.png" Height="40" Margin="0" HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom" />
+            <Border Grid.Row="0" Padding="0 20 0 0" CornerRadius="20">
+
+                <StackPanel HorizontalAlignment="Right" Margin="0" Orientation="Horizontal">
+
+                    <TextBlock Text="Div Acer Manager MAX" FontSize="26" FontWeight="Bold"
+                               LetterSpacing="4" VerticalAlignment="Bottom"
+                               HorizontalAlignment="Right" Margin="0 0 20 0"
+                               FontFamily="{StaticResource OxaniumBoldFont}">
+                        <TextBlock.Foreground>
+
+
+                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%, 100%">
+                                <GradientStop Offset="0" Color="#72bff4" />
+                                <GradientStop Offset="1" Color="#3678c3" />
+                            </LinearGradientBrush>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+
+                </StackPanel>
+            </Border>
+
+
+            <!-- Main Content -->
+            <TabControl Grid.Row="1" Margin="10,0,10,10" CornerRadius="20" Background="#18181b" BorderBrush="#18181b"
+                        BorderThickness="5" TabStripPlacement="Left">
+
+                <!--原文“Dashboard”-->
+                <TabItem Header="首页">
+
+                    <views:Dashboard />
+
+                </TabItem>
+
+                <!-- Power & Performance Tab -->
+                <TabItem Header="电源和风扇">
+                    <ScrollViewer>
+                        <StackPanel Margin="10,0,20,0">
+                          <!--原文“Power &amp; Performance”-->
+                            <TextBlock Text="电源和风扇" Classes="SectionHeader" />
+
+                            <Border Classes="Card" x:Name="ThermalProfilePanel">
+                                <StackPanel>
+                                    <!-- Header row with switch -->
+                                    <Grid ColumnDefinitions="*,Auto" Margin="0 0 0 10">
+                                        <TextBlock Text="电源模式" Classes="SubHeader"
+                                                   VerticalAlignment="Center" />
+                                        <ToggleSwitch x:Name="PluggedInToggleSwitch" Grid.Column="1"
+                                                      VerticalAlignment="Center" IsChecked="True"
+                                                      IsHitTestVisible="False">
+                                            <ToggleSwitch.OffContent>
+                                                <material:MaterialIcon Kind="BatteryOutline" Width="24" Height="24" />
+                                            </ToggleSwitch.OffContent>
+                                            <ToggleSwitch.OnContent>
+                                                <material:MaterialIcon Kind="PowerPlugOutline" Width="24" Height="24" />
+                                            </ToggleSwitch.OnContent>
+                                        </ToggleSwitch>
+                                    </Grid>
+
+                                     <!-- 原文“Configure thermal profiles to balance performance and temperature”-->
+                                    <TextBlock Text="皇上想要哪种调调？"
+                                               Opacity="0.7" Margin="0 0 0 10" />
+
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" Margin="0 10">
+                                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal"
+                                                    Margin="0 10 0 0" HorizontalAlignment="Center">
+                                            <RadioButton x:Name="LowPowerProfileButton" GroupName="ProfileGroup"
+                                                         Margin="0 0 15 0"
+                                                         IsVisible="{Binding ElementName=PluggedInToggleSwitch, Path=!IsChecked}">
+                                                <StackPanel>
+                                                    <material:MaterialIcon Kind="Leaf" Width="48" Height="48" />
+                                                    <TextBlock Text="省电" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </RadioButton>
+
+                                            <RadioButton x:Name="QuietProfileButton" GroupName="ProfileGroup"
+                                                         Margin="0 0 15 0"
+                                                         IsVisible="{Binding ElementName=PluggedInToggleSwitch, Path=IsChecked}">
+                                                <StackPanel>
+                                                    <material:MaterialIcon Kind="FanMinus" Width="48" Height="48" />
+                                                    <TextBlock Text="安静" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </RadioButton>
+
+                                            <RadioButton x:Name="BalancedProfileButton" GroupName="ProfileGroup"
+                                                         Margin="0 0 15 0" IsChecked="True">
+                                                <StackPanel>
+                                                    <material:MaterialIcon Kind="Bicycle" Width="48" Height="48" />
+                                                    <TextBlock Text="平衡" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </RadioButton>
+
+                                            <RadioButton x:Name="PerformanceProfileButton" GroupName="ProfileGroup"
+                                                         Margin="0 0 15 0"
+                                                         IsVisible="{Binding ElementName=PluggedInToggleSwitch, Path=IsChecked}">
+                                                <StackPanel>
+                                                    <material:MaterialIcon Kind="CarSide" Width="48" Height="48" />
+                                                    <TextBlock Text="性能" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </RadioButton>
+
+                                            <RadioButton x:Name="TurboProfileButton" GroupName="ProfileGroup"
+                                                         Margin="0 0 15 0"
+                                                         IsVisible="{Binding ElementName=PluggedInToggleSwitch, Path=IsChecked}">
+                                                <StackPanel>
+                                                    <material:MaterialIcon Kind="RocketLaunch" Width="48" Height="48" />
+                                                    <!--这里原文是“turbo”-->
+                                                    <TextBlock Text="我现在什么也不缺了" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!--没找到这个"Performance profiles are preset modes that control your device's speed, power use, and cooling:"在哪，只能直译-->
+                                    <TextBlock x:Name="ThermalProfileInfoText" Opacity="0.7"
+                                               Text="性能配置文件是控制设备速度、功耗和冷却的预设模式："
+                                               HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Fan Speed Control -->
+                            <Border Classes="Card" x:Name="FanControlPanel">
+                                <StackPanel>
+                                    <TextBlock Text="风扇模式" Classes="SubHeader" />
+                                    <!--这里“Set custom fan speeds for CPU and GPU”我觉得没啥必要-->
+                                    <TextBlock Text=" " Opacity="0.7"
+                                               Margin="0 0 0 10" />
+
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <RadioButton x:Name="AutoFanSpeedRadioButton" GroupName="FanModeGroup"
+                                                     Margin="0 0 15 0" IsChecked="True">
+                                            <StackPanel>
+                                                <material:MaterialIcon Kind="AutoAwesome" Width="48" Height="48" />
+                                                <!--这里原文是“atuo”但是我觉得宏碁官方的风扇调度太激进，同时为了以后能diy风扇曲线之后可能会出现的第三方调教的自动做区别-->
+                                                <TextBlock Text="宏碁自动" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </RadioButton>
+
+                                        <RadioButton x:Name="MaxFanSpeedRadioButton" GroupName="FanModeGroup"
+                                                     Margin="0 0 15 0"
+                                                     Click="MaxFanSpeedRadioButton_OnClick">
+                                            <StackPanel>
+                                                <material:MaterialIcon Kind="Turbine" Width="48" Height="48" />
+                                                <TextBlock Text="满速" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </RadioButton>
+
+                                        <RadioButton x:Name="ManualFanSpeedRadioButton" GroupName="FanModeGroup"
+                                                     Margin="0 0 15 0">
+                                            <StackPanel>
+                                                <material:MaterialIcon Kind="CarManualTransmission" Width="48"
+                                                                       Height="48" />
+                                                <!--这里原文是“manual”我觉得不是很贴切-->
+                                                <TextBlock Text="固定转速" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </RadioButton>
+
+                                    </StackPanel>
+                                    <!--我没见到“Manual fan controls are disabled to ensure quiet operation”，百度直译-->
+                                    <TextBlock x:Name="ManualDisabledInfoText" Opacity="0.5"
+                                               Text="手动风扇控制已禁用，以确保安静运行"
+                                               HorizontalAlignment="Center" Margin="0,20,0 ,0"
+                                               IsVisible="{Binding ElementName=QuietProfileButton, Path=IsChecked}" />
+
+                                    <StackPanel
+                                        IsVisible="{Binding ElementName=ManualFanSpeedRadioButton , Path=IsChecked}">
+
+                                        <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto"
+                                              Margin="0 5">
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Text="CPU Fan:"
+                                                       VerticalAlignment="Center" Width="80" />
+                                            <Slider x:Name="CpuFanSlider" Grid.Row="0" Grid.Column="1" Value="50" />
+                                            <TextBlock x:Name="CpuFanTextBlock" Grid.Row="0" Grid.Column="2"
+                                                       Text="50%"
+                                                       Width="50" TextAlignment="Right" />
+
+                                            <TextBlock Grid.Row="1" Grid.Column="0" Text="GPU Fan:"
+                                                       VerticalAlignment="Center" Width="80" Margin="0 15 0 0" />
+                                            <Slider x:Name="GpuFanSlider" Grid.Row="1" Grid.Column="1" Value="70"
+                                                    Margin="0 15 0 0" />
+                                            <TextBlock x:Name="GpuFanTextBlock" Grid.Row="1" Grid.Column="2"
+                                                       Text="70%"
+                                                       Width="50" TextAlignment="Right" Margin="0 15 0 0" />
+                                        </Grid>
+
+                                        <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                                            <Button x:Name="SetManualSpeedButton" Content="Apply Fan Settings"
+                                                    Margin="0 0 10 0" Click="SetManualSpeedButton_OnClick" />
+                                        </StackPanel>
+
+                                        <!--原文“Note: Low fan speeds may result in higher temperatures”-->
+                                        <TextBlock Text="注意别把风扇搞太慢烧掉电脑"
+                                                   Foreground="#FFA500" Margin="0 10 0 0" FontSize="12" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Power Controls Tab -->
+                <TabItem Header="电池管理" x:Name="BatteryPanel">
+                    <ScrollViewer>
+                        <StackPanel Margin="10,0,20,0">
+                            <!--这里原文是“Power Controls”，其他页面都是标题和侧边栏标题对应，怀疑打错-->
+                            <TextBlock Text="电池管理" Classes="SectionHeader" />
+
+                            <!-- Battery Calibration -->
+                            <Border Classes="Card" x:Name="CalibrationControls">
+                                <StackPanel>
+                                    <TextBlock Text="电池校准" Classes="SubHeader" />
+                                    <!--原文“Calibrate your battery to get accurate battery percentage readings”，超过我的词汇量了-->
+                                    <TextBlock
+                                        Text="校准电池然后你的电量更准"
+                                        Opacity="0.7" TextWrapping="Wrap" Margin="0 0 0 10" />
+
+                                    <Grid ColumnDefinitions="*,Auto" Margin="0 10">
+                                        <StackPanel Grid.Column="0">
+                                            <TextBlock x:Name="CalibrationStatusTextBlock"
+                                                       Text="电池没校准" FontWeight="SemiBold" />
+                                            <TextBlock
+                                                Text="电池校准需要充满、用完、再充满"
+                                                TextWrapping="Wrap" Margin="0 5 0 0" Opacity="0.7" />
+                                            <TextBlock Text="不要在校准的时候拔掉你的电源"
+                                                       Foreground="#FFA500" Margin="0 5 0 0" />
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1" Orientation="Vertical">
+                                            <Button x:Name="StartCalibrationButton" Content="开始校准"
+                                                    Margin="0 0 0 5" />
+                                            <Button x:Name="StopCalibrationButton" Content="停止校准"
+                                                    IsEnabled="False" Background="#444444" />
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Charge Limit -->
+                            <Border Classes="Card" x:Name="LimiterControls">
+                                <StackPanel>
+                                    <TextBlock Text="充电限制" Classes="SubHeader" />
+                                    <!--原文“Limit maximum battery charge to extend battery lifespan”-->
+                                    <TextBlock Text="用限制电池最大容量来换取更长的电池寿命，也就是提前享受轻度衰减的电池来换取更长时间的轻度衰减状态"
+                                               Opacity="0.7" Margin="0 0 0 10" />
+
+                                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0 10">
+                                        <!--原文“Enable Battery Limit”,我觉得前面有个框可以选那就没必要翻译enable-->
+                                        <CheckBox x:Name="BatteryLimitCheckBox" Grid.Column="0"
+                                                  Content="电池限制" Margin="0 0 10 0" />
+                                        <TextBlock Grid.Column="2" Text="限制最大电池容量为80%" VerticalAlignment="Center" />
+                                    </Grid>
+
+                                    <!--原文“Recommended for laptops that are frequently connected to AC power”-->
+                                    <TextBlock Text="笔记本能接电源就接，几乎所有的笔记本都会在接电状态下不让电池边充边放，当然少部分笔记本存在高功耗下电源电池一起供电"
+                                               Opacity="0.7" TextWrapping="Wrap" Margin="0 10 0 0" />
+                                </StackPanel>
+                            </Border>
+
+                            <!-- USB Power Delivery -->
+                            <Border Classes="Card" x:Name="UsbChargingPanel">
+                                <StackPanel>
+                                    <TextBlock Text="USB供电" Classes="SubHeader" />
+                                    <TextBlock Text="关机也给usb设备供电" Opacity="0.7"
+                                               Margin="0 0 0 10" />
+
+                                    <ComboBox x:Name="UsbChargingComboBox" SelectedIndex="2" Width="300"
+                                              HorizontalAlignment="Left" Margin="0 10"
+                                              SelectionChanged="UsbChargingComboBox_OnSelectionChanged">
+                                        <ComboBoxItem Content="不要" />
+                                        <ComboBoxItem Content="剩10%关闭" />
+                                        <ComboBoxItem Content="剩20%关闭" />
+                                        <ComboBoxItem Content="剩30%关闭" />
+                                    </ComboBox>
+
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Keyboard Lighting Tab -->
+                <TabItem Header="键盘灯" x:Name="KeyboardLightingPanel">
+                    <ScrollViewer>
+                        <StackPanel Margin="10,0,20,0">
+                            <TextBlock Text="键盘灯" Classes="SectionHeader" />
+                            <TextBlock Text="这功能还在测试" Foreground="#FFA500" Margin="0 0 0 10" />
+
+                            <!-- Zone Color Control -->
+
+
+                            <Border Classes="Card" x:Name="ZoneColorControlPanel">
+                                <StackPanel>
+                                    <TextBlock Text="区域颜色控制" Classes="SubHeader" />
+                                    <!--原文“Customize colors for each keyboard zone”，我觉得没必要-->
+                                    <TextBlock Text=" " Opacity="0.7"
+                                               Margin="0 0 0 10" />
+
+                                    <Grid Margin="0 10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+
+                                        <!-- Zone 1 -->
+                                        <Grid Grid.Column="0" Grid.Row="0" Margin="10,10" VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock Text="区域1:" VerticalAlignment="Center" Margin="0 0 10 15" />
+                                                <Border x:Name="Zone1Border" Background="#4287f5" Height="30"
+                                                        CornerRadius="3" Margin="0 0 10 15" IsVisible="False" />
+
+                                                <ColorPicker x:Name="Zone1ColorPicker"
+                                                             IsAlphaEnabled="False"
+                                                             IsAlphaVisible="False"
+                                                             Color="#4287f5"
+
+                                                             VerticalAlignment="Center"
+                                                             HorizontalAlignment="Left"
+                                                             Height="50"
+                                                             Width="200" />
+
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <!-- Zone 2 -->
+                                        <Grid Grid.Column="1" Grid.Row="0" Margin="10,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock Text="区域2:" VerticalAlignment="Center" Margin="0 0 10 15" />
+                                                <Border x:Name="Zone2Border" Background="#ff5733" Height="30"
+                                                        CornerRadius="3" Margin="0 0 10 15" IsVisible="False" />
+                                                <ColorPicker x:Name="Zone2ColorPicker"
+                                                             IsAlphaEnabled="False"
+                                                             HexInputAlphaPosition="Trailing"
+                                                             Color="#ff5733"
+                                                             VerticalAlignment="Center"
+                                                             HorizontalAlignment="Left"
+                                                             Height="50"
+                                                             Width="200" />
+                                            </StackPanel>
+
+                                        </Grid>
+
+                                        <!-- Zone 3 -->
+                                        <Grid Grid.Column="0" Grid.Row="1" Margin="10,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock Text="区域3:" VerticalAlignment="Center" Margin="0 0 10 15" />
+                                                <Border x:Name="Zone3Border" Background="#33ff57" Height="30"
+                                                        CornerRadius="3" Margin="0 0 10 15" IsVisible="False" />
+
+                                                <ColorPicker x:Name="Zone3ColorPicker"
+                                                             IsAlphaEnabled="False"
+                                                             HexInputAlphaPosition="Trailing"
+                                                             Color="#33ff57"
+                                                             VerticalAlignment="Center"
+                                                             HorizontalAlignment="Left"
+                                                             Height="50"
+                                                             Width="200" />
+                                            </StackPanel>
+
+                                        </Grid>
+
+                                        <!-- Zone 4 -->
+                                        <Grid Grid.Column="1" Grid.Row="1" Margin="10,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock Text="区域4:" VerticalAlignment="Center" Margin="0 0 10 15" />
+                                                <ColorPicker x:Name="Zone4ColorPicker"
+                                                             IsAlphaEnabled="False"
+                                                             HexInputAlphaPosition="Trailing"
+                                                             Color="#FFFF01"
+                                                             VerticalAlignment="Top"
+                                                             HorizontalAlignment="Left"
+                                                             Height="50"
+                                                             Width="200" />
+                                            </StackPanel>
+
+                                        </Grid>
+
+                                        <!-- Brightness -->
+                                        <Grid Grid.ColumnSpan="2" Grid.Row="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="亮度:" VerticalAlignment="Center"
+                                                       Margin="0 0 10 0" />
+                                            <Slider x:Name="KeyBrightnessSlider" Grid.Column="1" Value="100"
+                                                    Margin="0 0 10 0" />
+                                            <TextBlock x:Name="KeyBrightnessText" Grid.Column="2" Text="100%"
+                                                       VerticalAlignment="Center" />
+                                        </Grid>
+                                    </Grid>
+
+
+                                    <Button x:Name="ApplyKeyboardColorsButton" Content="应用"
+                                            Margin="0 15 0 0" />
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Lighting Effects -->
+                            <Border Classes="Card" x:Name="KeyboardEffectsPanel">
+                                <StackPanel>
+                                    <!--原文“Lighting Effects”-->
+                                    <TextBlock Text="花里胡哨特效" Classes="SubHeader" />
+                                    <!--原文“Choose dynamic lighting effects for your keyboard”-->
+                                    <TextBlock Text="皇上想要怎样都可以哦" Opacity="0.7"
+                                               Margin="0 0 0 10" />
+
+                                    <ComboBox x:Name="LightingModeComboBox" SelectedIndex="0" Width="200"
+                                              HorizontalAlignment="Left" Margin="0 10">
+                                        <!--我不玩这玩意，这里的翻译是deepseek做的，原文从上到下依次是Static Mode、Breathing Mode、Neon Mode、Wave Mode、Shifting Mode、Zoom Mode、Meteor Mode、Twinkling Mode-->
+                                        <ComboBoxItem Content="常亮" />
+                                        <ComboBoxItem Content="呼吸" />
+                                        <ComboBoxItem Content="霓虹" />
+                                        <ComboBoxItem Content="波浪" />
+                                        <ComboBoxItem Content="流光" />
+                                        <ComboBoxItem Content="缩放" />
+                                        <ComboBoxItem Content="流星" />
+                                        <ComboBoxItem Content="闪烁" />
+                                    </ComboBox>
+
+                                    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto,Auto" Margin="0 15">
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="速度"
+                                                   VerticalAlignment="Center" Width="80" />
+                                        <Slider x:Name="LightingSpeedSlider" Grid.Row="0" Grid.Column="1" Value="5"
+                                                Maximum="9" Minimum="0" IsSnapToTickEnabled="True" TickFrequency="1" />
+                                        <TextBlock x:Name="LightSpeedTextBlock" Grid.Row="0" Grid.Column="2" Text="5"
+                                                   Width="30" TextAlignment="Right" />
+
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="颜色"
+                                                   VerticalAlignment="Center" Width="80" Margin="0 15 0 0" />
+                                        <ColorPicker x:Name="LightEffectColorPicker"
+                                                     IsAlphaEnabled="False"
+                                                     HexInputAlphaPosition="Trailing"
+                                                     Color="#FFFF01"
+                                                     VerticalAlignment="Top"
+                                                     HorizontalAlignment="Left"
+                                                     Height="50"
+                                                     Grid.Row="1"
+                                                     Grid.Column="1"
+                                                     Width="200" />
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="方向"
+                                                   VerticalAlignment="Center" Width="80" Margin="0 15 0 0" />
+                                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal"
+                                                    Margin="0 15 0 0">
+                                            <RadioButton x:Name="LeftToRightRadioButton" GroupName="DirectionGroup"
+                                                         IsChecked="True" Margin="0 0 15 0">
+                                                <StackPanel>
+                                                    <material:MaterialIcon Kind="ArrowRight" Width="48" Height="48" />
+                                                    <TextBlock Text="从左到右" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                            <RadioButton x:Name="RightToLeftRadioButton" GroupName="DirectionGroup">
+                                                <StackPanel>
+                                                    <material:MaterialIcon Kind="ArrowLeft" Width="48" Height="48" />
+                                                    <TextBlock Text="从右到左" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Button x:Name="LightingEffectsApplyButton" Content="应用" Margin="0 5 0 0" />
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Backlight Timeout -->
+                            <Border Classes="Card" x:Name="BacklightTimeoutControls">
+                                <StackPanel>
+                                    <TextBlock Text="背光关闭时间" Classes="SubHeader" />
+                                    <TextBlock
+                                        Text="一段时间不用键盘就关灯省电"
+                                        Opacity="0.7" Margin="0 0 0 10" />
+                                    <!--原文“Enable backlight timeout (30 seconds)”，我感觉有点重复-->
+                                    <CheckBox x:Name="BacklightTimeoutCheckBox"
+
+                                              Content="30秒不用就关灯" IsChecked="True"
+                                              Margin="0 10" />
+                                </StackPanel>
+                            </Border>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- System Settings Tab -->
+                <!--原文“System Settings”,感觉直译怪怪的-->
+                <TabItem Header="杂项" x:Name="SystemSettingsPanel">
+                    <ScrollViewer>
+                        <StackPanel Margin="10,0,20,0">
+                            <TextBlock Text="杂项" Classes="SectionHeader" />
+
+                            <!-- LCD Override -->
+                            <Border Classes="Card" x:Name="LcdOverrideControls">
+                                <StackPanel>
+                                    <TextBlock Text="LCD超频" Classes="SubHeader" />
+                                    <!--不玩这个不懂ds直译，原文“Reduce LCD latency and minimize ghosting”-->
+                                    <TextBlock Text="降低 LCD 延迟并减少拖影" Opacity="0.7"
+                                               Margin="0 0 0 10" />
+
+                                    <!--原文“Enable LCD Override”-->
+                                    <CheckBox x:Name="LcdOverrideCheckBox" Content="享受你的超频吧"
+                                              IsChecked="True" Margin="0 10" />
+                                    <!--原文“Note: May increase battery consumption”，不懂ds直译-->
+                                    <TextBlock Text="它可能会增大电池消耗量" Foreground="#FFA500"
+                                               FontSize="12" Margin="0 5" />
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Boot Sound and Animation -->
+                            <Border Classes="Card" x:Name="BootSoundControls">
+                                <StackPanel>
+                                    <TextBlock Text="开机动画和音效" Classes="SubHeader" />
+                                    <!--原文"Enable or disable custom boot animation and sound"，感觉没必要-->
+                                    <TextBlock Text=" " Opacity="0.7"
+                                               Margin="0 0 0 10" />
+
+                                    <!--原文"Enable boot animation and sound"-->
+                                    <CheckBox x:Name="BootAnimAndSoundCheckBox"
+                                              Content="这是开关" IsChecked="False" Margin="0 10" />
+                                </StackPanel>
+                            </Border>
+
+                            <!-- System Information -->
+                            <Border Classes="Card">
+                                <StackPanel>
+                                    <TextBlock Text="电脑信息" Classes="SubHeader" />
+
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                                          Margin="0 10">
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="型号:" FontWeight="SemiBold"
+                                                   Width="120" Margin="0 10 0 0" />
+                                        <TextBlock x:Name="ModelNameText" Grid.Row="0" Grid.Column="1" Text="UNKNOWN"
+                                                   Margin="5 10 0 0" />
+
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Text="系列:"
+                                                   FontWeight="SemiBold" Width="120" Margin="0 10 0 0" />
+                                        <TextBlock x:Name="LaptopTypeText" Grid.Row="1" Grid.Column="1" Text="UNKNOWN"
+                                                   Margin="5 10 0 0" />
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Text="特性:" FontWeight="SemiBold"
+                                                   Width="120" Margin="0 10 0 0" />
+                                        <!--这几个unknown没见过又简单干脆不翻译了-->
+                                        <TextBlock x:Name="SupportedFeaturesTextBlock" Grid.Row="2" Grid.Column="1"
+                                                   Text="UNKNOWN" Margin="5 10 0 0" TextWrapping="Wrap" />
+
+                                        <TextBlock Grid.Row="5" Grid.Column="0" Text="项目版本:"
+                                                   FontWeight="SemiBold" Width="120" Margin="0 10 0 0" />
+                                        <TextBlock x:Name="ProjectVersionText" Grid.Row="5" Grid.Column="1"
+                                                   Text="UNKNOWN" Margin="5 10 0 0" />
+
+
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Daemon版本:"
+                                                   FontWeight="SemiBold" Width="120" Margin="0 10 0 0" />
+                                        <TextBlock x:Name="DaemonVersionText" Grid.Row="3" Grid.Column="1"
+                                                   Text="UNKNOWN" Margin="5 10 0 0" />
+
+                                        <!--原文“Driver Version”,我不确定对不对-->
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Linuwu-Sense版本:"
+                                                   FontWeight="SemiBold" Width="120" Margin="0 10 0 0" />
+                                        <TextBlock x:Name="DriverVersionText" Grid.Row="4" Grid.Column="1"
+                                                   Text="UNKNOWN" Margin="5 10 0 0" />
+
+                                    </Grid>
+
+                                    <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Stretch">
+                                        <Button x:Name="UpdatesButton" Content="检查更新" Margin="0 15 0 0"
+                                                Click="UpdatesButton_OnClick" />
+                                        <!--我的机子上没看到这个不确定什么意思就不翻译了-->
+                                        <Button x:Name="DeveloperModeButton" Content="Developer Mode" Margin="0 15 0 0"
+                                                IsVisible="False"
+                                                Click="DeveloperMode_OnClick" />
+                                        <Button x:Name="IssuePageButton" Content="问题反馈" Margin="0 15 0 0"
+                                                Click="IssuePageButton_OnClick" />
+                                        <!--这个菜单里面的东西不怎么懂，就不画蛇添足了-->
+                                        <Button x:Name="InternalsManagerButton" Content="Internals Manager"
+                                                Margin="0 15 0 0"
+                                                Click="InternalsMangerWindow_OnClick" />
+
+
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </Grid>
+
+        <!-- Overlay Grid (on separate layer) -->
+        <Grid x:Name="DaemonErrorGrid" Panel.ZIndex="100" Background="Transparent" IsHitTestVisible="True"
+              IsVisible="True">
+            <Border
+                BorderBrush="#333236"
+                BorderThickness="3"
+                CornerRadius="20"
+                Padding="30"
+                Width="400"
+                Height="280"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%, 100%">
+                        <GradientStop Offset="0" Color="#18181b" />
+                        <GradientStop Offset="1" Color="#242429" />
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+                    <!-- Material Icon -->
+                    <material:MaterialIcon Kind="Connection" Foreground="#FF5A5F" Width="48" Height="48"
+                                           HorizontalAlignment="Center" />
+                    <StackPanel Spacing="0">
+                        <!-- Message -->
+                        <TextBlock Text="Daemon未连接"
+                                   Foreground="White"
+                                   FontSize="18"
+                                   HorizontalAlignment="Center"
+                                   Classes="SectionHeader"
+                                   Margin="0,12,0,0" />
+
+                        <!--原文“Daemon may be initializing. Please wait a minute. If issues persists, check logs.”-->
+                        <TextBlock
+                            Text="Daemon可能在初始化，要是一直这样就去看看日志。"
+                            Foreground="White"
+                            FontSize="13"
+                            TextWrapping="Wrap"
+                            HorizontalAlignment="Center" />
+                    </StackPanel>
+
+                    <!-- Retry Button -->
+                    <Button Content="重试"
+                            Width="100"
+                            HorizontalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            Click="RetryConnectionButton_OnClick" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
